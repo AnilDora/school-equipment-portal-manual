@@ -1,8 +1,6 @@
-// API base configuration
-const API_BASE_URL = 'http://localhost:4000/api'; // C# API runs on port 4000
+const API_BASE_URL = 'http://localhost:4000/api';
 
 class ApiService {
-  // Generic HTTP request method
   async request(endpoint, options = {}) {
     const url = `${API_BASE_URL}${endpoint}`;
     const config = {
@@ -21,7 +19,6 @@ class ApiService {
         throw new Error(`HTTP ${response.status}: ${errorData}`);
       }
 
-      // Handle no content responses
       if (response.status === 204) {
         return null;
       }
@@ -33,7 +30,6 @@ class ApiService {
     }
   }
 
-  // Equipment API methods
   async getEquipment() {
     return await this.request('/equipment');
   }
@@ -61,8 +57,6 @@ class ApiService {
       method: 'DELETE',
     });
   }
-
-  // User API methods
   async login(loginData) {
     return await this.request('/users/login', {
       method: 'POST',
@@ -81,7 +75,6 @@ class ApiService {
     return await this.request('/users');
   }
 
-  // Request API methods
   async getRequests() {
     return await this.request('/requests');
   }
@@ -115,6 +108,5 @@ class ApiService {
   }
 }
 
-// Create and export a singleton instance
 const apiService = new ApiService();
 export default apiService;

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import apiService from '../services/apiService'
 
-// Very basic admin approval UI for requests
 function RequestApproval() {
   var [requests, setRequests] = useState([])
   var [equipmentList, setEquipmentList] = useState([])
@@ -33,7 +32,6 @@ function RequestApproval() {
     try {
       await apiService.updateRequestStatus(id, status)
       
-      // Reload requests
       const allRequests = await apiService.getRequests()
       setRequests(allRequests)
       

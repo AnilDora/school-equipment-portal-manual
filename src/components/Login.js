@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import apiService from '../services/apiService'
 
 function Login({ setUser }) {
-  // Beginner mistake: using inconsistent naming
   const navigate = useNavigate()
   
   var [email, setEmail] = React.useState("")
@@ -14,7 +13,6 @@ function Login({ setUser }) {
   async function submitForm(e) {
     e.preventDefault()
     
-    // Beginner style validation
     if(email == "") {
       alert('email is empty!')
       return
@@ -27,7 +25,6 @@ function Login({ setUser }) {
     setLoading(true)
 
     try {
-      // Call API for login (Type is not needed for login, backend determines it)
       const loginData = {
         Email: email,
         Password: pass
@@ -35,9 +32,6 @@ function Login({ setUser }) {
       
       const userData = await apiService.login(loginData)
       
-      console.log('Login response:', userData)  // Debug log
-      
-      // Store user data
       localStorage.setItem('userInfo', JSON.stringify(userData))
       setUser(userData)
       navigate('/dashboard')

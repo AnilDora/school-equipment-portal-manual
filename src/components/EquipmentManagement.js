@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import apiService from '../services/apiService'
 
-// Equipment management with add/edit/delete functionality and display
 function EquipmentManagement({ showActions = true }) {
   var [equipmentList, setEquipmentList] = useState([])
   var [showAddForm, setshowAddForm] = useState(false)
@@ -11,13 +10,11 @@ function EquipmentManagement({ showActions = true }) {
   var [category, setCategory] = useState('all')
   var [onlyAvailable, setOnlyAvailable] = useState(false)
   
-  // Form state management
   var [itemName, setItemName] = useState("")
   var [itemCategory, setItemCategory] = useState("sports")
   var [itemCondition, setItemCondition] = useState("good")
   var [itemQuantity, setItemQuantity] = useState("")
 
-  // Load equipment from API
   async function loadEquipmentFromAPI() {
     try {
       setLoading(true)
@@ -35,7 +32,6 @@ function EquipmentManagement({ showActions = true }) {
     loadEquipmentFromAPI()
   }, [])
 
-  // Add equipment via API
   async function handleAddEquipment(e) {
     e.preventDefault()
     
@@ -52,15 +48,13 @@ function EquipmentManagement({ showActions = true }) {
         category: itemCategory, 
         condition: itemCondition,
         quantity: parseInt(itemQuantity),
-        available: parseInt(itemQuantity) // Initially all items are available
+        available: parseInt(itemQuantity)
       }
 
       await apiService.addEquipment(newItem)
       
-      // Reload equipment list
       await loadEquipmentFromAPI()
 
-      // Reset form
       setItemName("")
       setItemCategory("sports")
       setItemCondition("good")
@@ -91,17 +85,15 @@ function EquipmentManagement({ showActions = true }) {
         category: itemCategory,
         condition: itemCondition,
         quantity: parseInt(itemQuantity),
-        available: parseInt(itemQuantity) // Reset available to full quantity on edit
+        available: parseInt(itemQuantity)
       }
 
       await apiService.updateEquipment(editingItem.id, updatedItem)
       
-      // Reload equipment list
       await loadEquipmentFromAPI()
       
       setEditingItem(null)
       
-      // Reset form
       setItemName("")
       setItemCategory("sports")
       setItemCondition("good")
@@ -115,13 +107,11 @@ function EquipmentManagement({ showActions = true }) {
     }
   }
 
-  // Delete equipment via API
   async function deleteEquipment(id) {
     if(window.confirm("ARE YOU SURE YOU WANT TO DELETE???")) {
       try {
         await apiService.deleteEquipment(id)
         
-        // Reload equipment list
         await loadEquipmentFromAPI()
         
         alert("Equipment deleted successfully!")
@@ -139,14 +129,12 @@ function EquipmentManagement({ showActions = true }) {
     setItemQuantity(item.quantity)
   }
 
-  // Filter equipment based on category and availability
   var filtered = equipmentList.filter(item => {
     if (category !== 'all' && item.category !== category) return false
     if (onlyAvailable && (!item.available || Number(item.available) < 1)) return false
     return true
   })
 
-  // BEGINNER UI: minimal but with a little basic styling
   return (
     <div style={{border: '1px solid #aaa', margin: '20px 0', padding: 10, background: '#f9f9f9'}}>
       <h3 style={{color: 'navy', fontSize: '18px'}}>Equipment Management</h3>
@@ -242,7 +230,6 @@ function EquipmentManagement({ showActions = true }) {
         </div>
       )}
 
-      {/* Equipment filtering and display */}
       <div style={{marginBottom: 10}}>
         <label>Category: </label>
         <select value={category} onChange={e => setCategory(e.target.value)} style={{marginRight: 10}}>

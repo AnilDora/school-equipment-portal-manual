@@ -29,7 +29,6 @@ function App() {
     }
   }, []);
 
-  // Beginner-style logout handler
   function handleLogout() {
     setUser(null);
     localStorage.removeItem('userInfo');

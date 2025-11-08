@@ -19,22 +19,18 @@ function BorrowRequest({ user }) {
     try {
       setLoading(true)
       
-      // Load equipment first (this is essential)
       const equipment = await apiService.getEquipment()
       setEquipmentList(equipment)
       
-      // Try to load user requests, but don't fail if it doesn't work
       try {
         const userRequests = await apiService.getUserRequests(user.Email)
         setRequests(userRequests || [])
       } catch (requestError) {
         console.error('Failed to load user requests:', requestError)
-        // Set empty array if user requests fail, but still allow equipment requests
         setRequests([])
       }
     } catch (error) {
       console.error('Failed to load equipment data:', error)
-      // Still try to render the component with empty data
       setEquipmentList([])
       setRequests([])
     } finally {
@@ -63,7 +59,6 @@ function BorrowRequest({ user }) {
 
       await apiService.addRequest(newReq)
       
-      // Reload user requests
       const userRequests = await apiService.getUserRequests(user.Email)
       setRequests(userRequests)
       
@@ -78,7 +73,6 @@ function BorrowRequest({ user }) {
     }
   }
 
-  // BEGINNER UI: minimal but with a little basic styling
   return (
     <div style={{border: '1px solid #aaa', maxWidth: 400, margin: '20px auto', padding: 10, background: '#f9f9f9'}}>
       <h2 style={{textAlign: 'center', color: 'navy', fontSize: '22px'}}>Borrow Equipment</h2>
