@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import apiService from '../services/apiService'
 
-// Beginner style: minimal validation, localStorage, inconsistent naming
+
 function BorrowRequest({ user }) {
   var [equipmentList, setEquipmentList] = useState([])
   var [selectedItem, setSelectedItem] = useState("")

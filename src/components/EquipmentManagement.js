@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import apiService from '../services/apiService'
 
-// Beginner mistake: Using inconsistent naming and verbose variable names
-function EquipmentManagement() {
+// Equipment management with add/edit/delete functionality and display
+function EquipmentManagement({ showActions = true }) {
   var [equipmentList, setEquipmentList] = useState([])
   var [showAddForm, setshowAddForm] = useState(false)
   var [editingItem, setEditingItem] = useState(null)
   var [loading, setLoading] = useState(true)
   var [submitting, setSubmitting] = useState(false)
+  var [category, setCategory] = useState('all')
+  var [onlyAvailable, setOnlyAvailable] = useState(false)
   
-  // Beginner mistake: Basic form state management
+  // Form state management
   var [itemName, setItemName] = useState("")
   var [itemCategory, setItemCategory] = useState("sports")
   var [itemCondition, setItemCondition] = useState("good")
@@ -137,12 +139,19 @@ function EquipmentManagement() {
     setItemQuantity(item.quantity)
   }
 
+  // Filter equipment based on category and availability
+  var filtered = equipmentList.filter(item => {
+    if (category !== 'all' && item.category !== category) return false
+    if (onlyAvailable && (!item.available || Number(item.available) < 1)) return false
+    return true
+  })
+
   // BEGINNER UI: minimal but with a little basic styling
   return (
-    <div style={{border: '1px solid #aaa', maxWidth: 500, margin: '20px auto', padding: 10, background: '#f9f9f9'}}>
-      <h2 style={{textAlign: 'center', color: 'navy', fontSize: '22px'}}>Equipment Management</h2>
+    <div style={{border: '1px solid #aaa', margin: '20px 0', padding: 10, background: '#f9f9f9'}}>
+      <h3 style={{color: 'navy', fontSize: '18px'}}>Equipment Management</h3>
 
-      {!showAddForm && !editingItem && (
+      {showActions && !showAddForm && !editingItem && (
         <button 
           onClick={() => setshowAddForm(true)}
           style={{background: '#eee', border: '1px solid #888', padding: '4px 12px', cursor: 'pointer', marginBottom: 10}}
@@ -233,36 +242,62 @@ function EquipmentManagement() {
         </div>
       )}
 
-      <div style={{marginTop: 10}}>
-        <h3 style={{color: 'navy', fontSize: '18px'}}>Available Equipment</h3>
+      {/* Equipment filtering and display */}
+      <div style={{marginBottom: 10}}>
+        <label>Category: </label>
+        <select value={category} onChange={e => setCategory(e.target.value)} style={{marginRight: 10}}>
+          <option value="all">All</option>
+          <option value="sports">Sports</option>
+          <option value="lab">Lab</option>
+          <option value="music">Music</option>
+          <option value="art">Art</option>
+        </select>
+        <label>
+          <input type="checkbox" checked={onlyAvailable} onChange={e => setOnlyAvailable(e.target.checked)} /> Only show available
+        </label>
+      </div>
+      
+      {loading ? (
+        <div style={{textAlign: 'center', padding: '20px'}}>Loading equipment...</div>
+      ) : (
         <table border="1" style={{width: '100%', background: '#fff', fontSize: '15px'}}>
           <thead>
             <tr style={{background: '#e0e0e0'}}>
               <th>Name</th>
               <th>Category</th>
               <th>Condition</th>
-              <th>Total Quantity</th>
+              <th>Total</th>
               <th>Available</th>
-              <th>Actions</th>
+              {showActions && <th>Actions</th>}
             </tr>
           </thead>
           <tbody>
-            {equipmentList.map(item => (
-              <tr key={item.id}>
-                <td>{item.name}</td>
-                <td>{item.category}</td>
-                <td>{item.condition}</td>
-                <td>{item.quantity}</td>
-                <td>{item.available}</td>
-                <td>
-                  <button onClick={() => startEditing(item)} style={{background: '#eee', border: '1px solid #888', padding: '2px 8px', cursor: 'pointer', marginRight: 5}}>Edit</button>
-                  <button onClick={() => deleteEquipment(item.id)} style={{background: '#eee', border: '1px solid #888', padding: '2px 8px', cursor: 'pointer'}}>Delete</button>
+            {filtered.length === 0 ? (
+              <tr>
+                <td colSpan={showActions ? "6" : "5"} style={{textAlign: 'center', padding: '20px'}}>
+                  {equipmentList.length === 0 ? 'No equipment found' : 'No equipment matches your filters'}
                 </td>
               </tr>
-            ))}
+            ) : (
+              filtered.map(item => (
+                <tr key={item.id}>
+                  <td>{item.name}</td>
+                  <td>{item.category}</td>
+                  <td>{item.condition}</td>
+                  <td>{item.quantity}</td>
+                  <td>{item.available}</td>
+                  {showActions && (
+                    <td>
+                      <button onClick={() => startEditing(item)} style={{background: '#eee', border: '1px solid #888', padding: '2px 8px', cursor: 'pointer', marginRight: 5}}>Edit</button>
+                      <button onClick={() => deleteEquipment(item.id)} style={{background: '#eee', border: '1px solid #888', padding: '2px 8px', cursor: 'pointer'}}>Delete</button>
+                    </td>
+                  )}
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
-      </div>
+      )}
     </div>
   )
 }
