@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Run SchoolEquipmentApi",
+			"type": "shell",
+			"command": "dotnet run --project SchoolEquipmentApi/SchoolEquipmentApi.csproj",
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		}
+	]
+}
