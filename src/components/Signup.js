@@ -2,22 +2,17 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import apiService from '../services/apiService'
 
-// Beginner mistake: mixing naming conventions
 function Signup() {
-  // Beginner mistake: using inconsistent case for hook names
   const navigate = useNavigate()
-  // Beginner mistake: using var and inconsistent naming
   var [userEmail, setUserEmail] = React.useState("")
   var [userPass, setUserPass] = React.useState("")
   var [userPassConfirm, setUserPassConfirm] = React.useState("")
   var [userType, setUserType] = React.useState("student")
   var [loading, setLoading] = React.useState(false)
 
-  // Beginner mistake: verbose function name
   async function handleSignupFormSubmit(e) {
     e.preventDefault()
     
-    // Beginner mistake: multiple alerts and redundant checks
     if(userEmail == "") {
       alert("Please enter email!")
       return
@@ -38,7 +33,6 @@ function Signup() {
     setLoading(true)
 
     try {
-      // Call API for registration
       var newUserData = {
         Email: userEmail,
         Password: userPass,
@@ -55,7 +49,6 @@ function Signup() {
     }
   }
 
-  // Updated to match Login page styling
   return (
     <div style={{border: '1px solid #aaa', maxWidth: 350, margin: '60px auto', padding: 20, background: '#f7f7f7', borderRadius: 8, boxShadow: '0 2px 8px #ddd'}}>
       <h2 style={{textAlign: 'center', color: 'navy', fontSize: '22px', marginBottom: 20}}>Sign Up</h2>

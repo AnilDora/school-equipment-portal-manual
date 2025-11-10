@@ -25,9 +25,9 @@ function Dashboard({ user, onLogout }) {
         <div style={{textAlign: 'center', fontSize: '15px', marginTop: 4}}>
           <span>Logged in as: <b>{user?.Email}</b> ({user?.Type})</span>
           <span style={{marginLeft: 20}}>Time: {currentTime}</span>
-          <div style={{fontSize: '12px', color: '#666', marginTop: 5}}>
+          {/* <div style={{fontSize: '12px', color: '#666', marginTop: 5}}>
             Debug: User object = {JSON.stringify(user)}
-          </div>
+          </div> */}
         </div>
       </div>
       <div style={{display: 'flex', gap: 18}}>
@@ -36,14 +36,14 @@ function Dashboard({ user, onLogout }) {
         </div>
         <div style={{flex: 1}}>
           <EquipmentList />
-          <div style={{padding: '10px', background: '#fff3cd', border: '1px solid #ffeaa7', margin: '10px 0', fontSize: '12px'}}>
+          {/* <div style={{padding: '10px', background: '#fff3cd', border: '1px solid #ffeaa7', margin: '10px 0', fontSize: '12px'}}>
             <strong>Debug Info:</strong><br/>
             User Type: "{user?.Type}"<br/>
             Is Administrator: {user?.Type === "administrator" ? "YES" : "NO"}<br/>
             Is Lab Assistant: {user?.Type === "lab_assistant" ? "YES" : "NO"}<br/>
             Is Teacher: {user?.Type === "teacher" ? "YES" : "NO"}<br/>
             Is Student: {user?.Type === "student" ? "YES" : "NO"}
-          </div>
+          </div> */}
           
           {user?.Type === "administrator" && (
             <div>

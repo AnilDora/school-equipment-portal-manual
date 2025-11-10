@@ -7,6 +7,10 @@ function Dashboard({ user, onLogout }) {
   var [showEquipment, setShowEquipment] = React.useState(false)
   var [currentTime, setCurrentTime] = React.useState("")
   
+  console.log('Dashboard - user prop:', user)
+  console.log('Dashboard - user.Email:', user?.Email)
+  console.log('Dashboard - user.Type:', user?.Type)
+  
   setTimeout(() => {
     setCurrentTime(new Date().toLocaleTimeString())
   }, 1000)
@@ -23,10 +27,10 @@ function Dashboard({ user, onLogout }) {
         <h2 style={{textAlign: 'center', color: 'navy', fontSize: '22px', margin: 0}}>School Equipment Management System</h2>
         <div style={{textAlign: 'center', fontSize: '15px', marginTop: 4}}>
           <span>Logged in as: <b>{user?.Email}</b> ({user?.Type || user?.type})</span>
-          <span style={{marginLeft: 20}}>Time: {currentTime}</span>
-          <div style={{fontSize: '12px', color: '#666', marginTop: 5}}>
+          
+          {/* <div style={{fontSize: '12px', color: '#666', marginTop: 5}}>
             Debug: User object = {JSON.stringify(user)}
-          </div>
+          </div> */}
         </div>
       </div>
       <div style={{display: 'flex', gap: 18}}>
@@ -35,7 +39,7 @@ function Dashboard({ user, onLogout }) {
         </div>
         <div style={{flex: 1}}>
           <EquipmentManagement showActions={false} />
-          <div style={{padding: '10px', background: '#fff3cd', border: '1px solid #ffeaa7', margin: '10px 0', fontSize: '12px'}}>
+          {/* <div style={{padding: '10px', background: '#fff3cd', border: '1px solid #ffeaa7', margin: '10px 0', fontSize: '12px'}}>
             <strong>Debug Info:</strong><br/>
             User Type (uppercase): "{user?.Type}"<br/>
             User Type (lowercase): "{user?.type}"<br/>
@@ -44,7 +48,7 @@ function Dashboard({ user, onLogout }) {
             Is Lab Assistant: {(user?.Type === "lab_assistant" || user?.type === "lab_assistant") ? "YES" : "NO"}<br/>
             Is Teacher: {(user?.Type === "teacher" || user?.type === "teacher") ? "YES" : "NO"}<br/>
             Is Student: {(user?.Type === "student" || user?.type === "student") ? "YES" : "NO"}
-          </div>
+          </div> */}
           
           {(user?.Type === "administrator" || user?.type === "administrator") && (
             <div>
